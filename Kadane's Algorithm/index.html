@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Kadane's algorithm</title>
+
+    <script>
+      function maxSubArray(arr) {
+        if (arr.length === 0) return { maxSum: 0, subArray: [] };
+
+        let maxSum = arr[0];
+        let currentSum = arr[0];
+        let start = 0,
+          end = 0,
+          tempStart = 0;
+
+        for (let i = 1; i < arr.length; i++) {
+          if (arr[i] > currentSum + arr[i]) {
+            currentSum = arr[i];
+            tempStart = i;
+          } else {
+            currentSum += arr[i];
+          }
+          if (currentSum > maxSum) {
+            maxSum = currentSum;
+            start = tempStart;
+            end = i;
+          }
+        }
+        const subArray = arr.slice(start, end + 1);
+        return { maxSum, subArray };
+      }
+      //Example usage
+      // const arr = [4, -5, 7, -2, 0, 2, 10, 5];
+      // const result = maxSubArray(arr);
+
+      // console.log("Maximum number", result.maxSum);
+      // console.log("Subarray with maximum number", result.subArray);
+
+      const handleSubmit = () =>{
+        const input = document.getElementById("arr").value;
+        const arr = input.split(',').map(Number)
+        const result = maxSubArray(arr)
+
+        document.getElementById("maxSum").innerText=`Maximum Sum : ${result.maxSum}`;
+        document.getElementById("subArray").innerText=`SubArray with Maximum Number : [${result.subArray}]`;
+      }
+    </script>
+  </head>
+  <body style="display: grid; place-items: center">
+    <h1>Kadane's algorithm</h1>
+    <p>
+      Kadane's algorithm is an algorithm for finding the maximum sum of a
+      contiguous subarray in a one-dimensional array of numbers.
+    </p><br/>
+    <div>
+      <label for="arr">Enter numbers saperated with commas:</label>
+      <input type="text" id="arr" />
+      <button onclick="handleSubmit()">Submit</button>
+    </div>
+    <br/>
+    <div id="maxSum">Maximum Sum:</div>
+    <div id="subArray">SubArray with Maximum Number:</div>
+  </body>
+</html>
